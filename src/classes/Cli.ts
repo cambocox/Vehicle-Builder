@@ -92,7 +92,7 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
-          []
+          [] // default wheels
         );
         this.vehicles.push(car);
         this.selectedVehicleVin = car.vin;
@@ -121,7 +121,13 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
-          parseInt(answers.towingCapacity)
+          parseInt(answers.towingCapacity),
+          [
+            new Wheel("GoodYear", 20),
+            new Wheel("GoodYear", 20),
+            new Wheel("GoodYear", 20),
+            new Wheel("GoodYear", 20)
+          ]
         );
         this.vehicles.push(truck);
         this.selectedVehicleVin = truck.vin;
@@ -163,6 +169,71 @@ class Cli {
       });
   }
 
+  // method to perform actions on a vehicle
+  performActions(): void {
+    const selectedVehicle = this.getSelectedVehicle();
+
+    if (!selectedVehicle) {
+      console.log("No vehicle selected.");
+      return;
+    }
+
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'action',
+          message: 'Select an action',
+          choices: [
+            'Print details',
+            'Start vehicle',
+            'Accelerate 5 MPH',
+            'Decelerate 5 MPH',
+            'Stop vehicle',
+            'Turn right',
+            'Turn left',
+            'Reverse',
+            ...(selectedVehicle instanceof Truck ? ['Tow a vehicle'] : []),
+            ...(selectedVehicle instanceof Motorbike ? ['Do a wheelie'] : []),
+            'Select or create another vehicle',
+            'Exit',
+          ],
+        },
+      ])
+      .then((answers) => {
+        if (answers.action === 'Print details') {
+          selectedVehicle.printDetails();
+        } else if (answers.action === 'Start vehicle') {
+          selectedVehicle.start();
+        } else if (answers.action === 'Accelerate 5 MPH') {
+          selectedVehicle.accelerate(5);
+        } else if (answers.action === 'Decelerate 5 MPH') {
+          selectedVehicle.decelerate(5);
+        } else if (answers.action === 'Stop vehicle') {
+          selectedVehicle.stop();
+        } else if (answers.action === 'Turn right') {
+          selectedVehicle.turn('right');
+        } else if (answers.action === 'Turn left') {
+          selectedVehicle.turn('left');
+        } else if (answers.action === 'Reverse') {
+          selectedVehicle.reverse();
+        } else if (answers.action === 'Tow a vehicle' && selectedVehicle instanceof Truck) {
+          this.findVehicleToTow();
+          return;
+        } else if (answers.action === 'Do a wheelie' && selectedVehicle instanceof Motorbike) {
+          selectedVehicle.wheelie();
+        } else if (answers.action === 'Select or create another vehicle') {
+          this.startCli();
+          return;
+        } else {
+          this.exit = true;
+        }
+        if (!this.exit) {
+          this.performActions();
+        }
+      });
+  }
+
   // method to find a vehicle to tow
   findVehicleToTow(): void {
     const selectedTruck = this.getSelectedVehicle() as Truck;
@@ -180,7 +251,7 @@ class Cli {
           name: 'vehicleToTowVin',
           message: 'Select a vehicle to tow',
           choices: this.vehicles
-            .filter((vehicle) => vehicle.vin !== selectedTruck.vin) // Exclude the selected truck itself
+            .filter((vehicle) => vehicle.vin !== selectedTruck.vin)
             .map((vehicle) => {
               return {
                 name: `${vehicle.vin} -- ${vehicle.make} ${vehicle.model}`,
@@ -254,7 +325,7 @@ class Cli {
           return;
         } else if (answers.action === 'Do a wheelie' && selectedVehicle instanceof Motorbike) {
           selectedVehicle.doWheelie();
-        } else if (answers.action === 'Select or create another vehicle
+        } else if (answers.action === 'Select or create another vehicle') {
           // start the cli to return to the initial prompt if the user wants to select or create another vehicle
           this.startCli();
           return;
@@ -298,3 +369,4 @@ export default Cli;
 // Code to instantiate and start the CLI
 const cli = new Cli([]);
 cli.startCli();
+}

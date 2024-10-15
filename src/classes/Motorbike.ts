@@ -26,7 +26,7 @@ class Motorbike extends Vehicle {
     wheels: Wheel[]
   ) {
     // Call the constructor of the parent class, Vehicle
-    super(vin, color, make, model, year, weight, topSpeed);
+    super();
 
     // Initialize the properties of the Motorbike class
     this.vin = vin;
@@ -41,7 +41,7 @@ class Motorbike extends Vehicle {
     if (wheels.length === 2) {
       this.wheels = wheels;
     } else {
-      this.wheels = [new Wheel('DefaultBrand', 18), new Wheel('DefaultBrand', 18)];
+      this.wheels = [new Wheel(), new Wheel()];
     }
   }
 
@@ -51,7 +51,7 @@ class Motorbike extends Vehicle {
   }
 
   // Override the printDetails method from the Vehicle class
-  printDetails(): void {
+  override printDetails(): void {
     // Call the printDetails method of the parent class
     super.printDetails();
 
@@ -63,7 +63,7 @@ class Motorbike extends Vehicle {
     console.log(`Weight: ${this.weight} kg`);
     console.log(`Top Speed: ${this.topSpeed} km/h`);
     console.log(`Color: ${this.color}`);
-    console.log(`Wheels: ${this.wheels.map((wheel, index) => `Wheel ${index + 1} - Brand: ${wheel.brand}, Diameter: ${wheel.diameter}`).join('; ')}`);
+    console.log(`Wheels: ${this.wheels.map((wheel, index) => `Wheel ${index + 1} - Brand: ${wheel.tireBrand}, Diameter: ${wheel.diameter}`).join('; ')}`);
   }
 }
 

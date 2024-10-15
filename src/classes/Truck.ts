@@ -31,7 +31,7 @@ class Truck extends Vehicle implements AbleToTow {
     wheels: Wheel[]
   ) {
     // Call the constructor of the parent class, Vehicle
-    super(vin, color, make, model, year, weight, topSpeed);
+    super();
 
     // Initialize the properties of the Truck class
     this.vin = vin;
@@ -48,10 +48,10 @@ class Truck extends Vehicle implements AbleToTow {
       this.wheels = wheels;
     } else {
       this.wheels = [
-        new Wheel('DefaultBrand', 20),
-        new Wheel('DefaultBrand', 20),
-        new Wheel('DefaultBrand', 20),
-        new Wheel('DefaultBrand', 20)
+        new Wheel(20),
+        new Wheel(20),
+        new Wheel(20),
+        new Wheel(20)
       ];
     }
   }
@@ -71,7 +71,7 @@ class Truck extends Vehicle implements AbleToTow {
   }
 
   // Override the printDetails method from the Vehicle class
-  printDetails(): void {
+  override printDetails(): void {
     // Call the printDetails method of the parent class
     super.printDetails();
 
@@ -84,7 +84,7 @@ class Truck extends Vehicle implements AbleToTow {
     console.log(`Top Speed: ${this.topSpeed} km/h`);
     console.log(`Color: ${this.color}`);
     console.log(`Towing Capacity: ${this.towingCapacity} kg`);
-    console.log(`Wheels: ${this.wheels.map((wheel, index) => `Wheel ${index + 1} - Brand: ${wheel.brand}, Diameter: ${wheel.diameter}`).join('; ')}`);
+    console.log(`Wheels: ${this.wheels.map((wheel, index) => `Wheel ${index + 1} - Brand: ${wheel.tireBrand}, Diameter: ${wheel.diameter}`).join('; ')}`);
   }
 }
 
