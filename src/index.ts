@@ -34,7 +34,7 @@ const car1 = new Car(
 );
 
 // Create a motorbike instance once the Motorbike class is implemented
-const motorbike1Wheels = [new Wheel("Michelin", 17), new Wheel("Michelin", 17)];
+const motorbike1Wheels = [new Wheel(17, "Michelin"), new Wheel(17, "Michelin")];
 const motorbike1 = new Motorbike(
   Cli.generateVin(), // Generate a VIN using the static method in Cli class
   "black", // color

@@ -271,34 +271,34 @@ class Cli {
         this.performActions();
       });
   }
-  
+
   // method to start the cli
-// method to start the cli
-startCli(): void {
-  inquirer
-    .prompt([
-      {
-        type: 'list',
-        name: 'CreateOrSelect',
-        message:
-          'Would you like to create a new vehicle or perform an action on an existing vehicle?',
-        choices: ['Create a new vehicle', 'Select an existing vehicle'],
-      },
-    ])
-    .then((answers) => {
-      // check if the user wants to create a new vehicle or select an existing vehicle
-      if (answers.CreateOrSelect === 'Create a new vehicle') {
-        this.createVehicle();
-      } else {
-        this.chooseVehicle();
-      }
-    });
+  startCli(): void {
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'CreateOrSelect',
+          message:
+            'Would you like to create a new vehicle or perform an action on an existing vehicle?',
+          choices: ['Create a new vehicle', 'Select an existing vehicle'],
+        },
+      ])
+      .then((answers) => {
+        // check if the user wants to create a new vehicle or select an existing vehicle
+        if (answers.CreateOrSelect === 'Create a new vehicle') {
+          this.createVehicle();
+        } else {
+          this.chooseVehicle();
+        }
+      });
+  }
 }
 
 // export the Cli class
-export Cli;
+export default Cli;
 
 // Code to instantiate and start the CLI
-const cli = new Cli([]);
-cli.startCli();
-}
+//const cli = new Cli([]);
+//cli.startCli();
+//}
